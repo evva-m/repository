@@ -1,32 +1,51 @@
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QPushButton
+from PyQt6.QtWidgets import QApplication, QWidget
 from PyQt6.QtGui import QColor, QPainter
 from PyQt6.QtCore import Qt, QPointF
 from random import randrange
-from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6 import uic
+import io
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(610, 536)
-        self.btn = QtWidgets.QPushButton(parent=Form)
-        self.btn.setGeometry(QtCore.QRect(270, 30, 75, 23))
-        self.btn.setObjectName("btn")
+template = """<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>610</width>
+    <height>536</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QPushButton" name="btn">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>30</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PushButton</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+"""
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
-
-    def retranslateUi(self, Form):
-        _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.btn.setText(_translate("Form", "PushButton"))
-
-
-class Suprematism(QWidget, Ui_Form):
+class Suprematism(QWidget):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
+        f = io.StringIO(template)
+        uic.loadUi(f, self)
         self.do_paint = False
         self.btn.clicked.connect(self.btn_clicked)
 
